@@ -1,0 +1,9 @@
+name: DrupalMel
+type: module
+description: 'DrupalMelbourne'
+core: 8.x
+package: DrupalMel
+dependencies:
+  - consumers
+  - simple_oauth
+  - simple_oauth_extras
