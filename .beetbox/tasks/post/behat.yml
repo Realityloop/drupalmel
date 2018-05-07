@@ -1,6 +1,0 @@
----
-- name: Install behat dependencies with composer.
-  composer:
-    command: install
-    working_dir: "{{ beet_base }}/tests/behat"
-  become: no
