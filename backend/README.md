@@ -1,1 +1,1 @@
-drush si -y content_jsonapi install_configure_form.include_recipes_magazin=NULL
+`drush si -y contenta_jsonapi install_configure_form.include_recipes_magazin=NULL`
