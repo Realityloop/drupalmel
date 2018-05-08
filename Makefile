@@ -72,7 +72,7 @@ install: init-env build
 ## Display docker logs.
 logs:
 	$(call title,Displaying docker logs)
-	$(call exec,docker-compose logs --follow)
+	$(call exec,docker-compose logs --follow $(filter-out $@,$(MAKECMDGOALS)))
 
 ## Start docker containers.
 up:

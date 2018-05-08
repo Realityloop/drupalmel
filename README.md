@@ -3,7 +3,24 @@
 This is the codebase for the Drupal Melbourne community website.
 
 
-## Setup local development
+---
+
+
+## Table of Contents
+
+* [Local development](#local-development)
+  * [Requirements](#requirements)
+  * [Install](#install)
+  * [Services](#services)
+* [Makefile commands](#makefile-commands)
+* [Help](#help)
+  * [Bad Gateway](#bad-gateway)
+
+
+---
+
+
+## Local development
 
 ### Requirements
 
@@ -19,14 +36,22 @@ Run the appropriate command based on your operating system and/or shell:
   > `make install`
 
 
-### 2. Access installed services:
+### 2. Services:
 
 - Frontend / Nuxt.js: http://drupalmel.localhost
 - Backend / ContentaCMS: http://cms.drupalmel.localhost
 - MailHog: http://mailhog.drupalmel.localhost
 
 
+---
+
+
 ## Makefile commands
+
+A Makefile is provided to control your development environment and process.
+
+*Important:* This is only currently for use with macOS and *nix systems.
+
 
 - **build:**
 
@@ -88,7 +113,33 @@ Run the appropriate command based on your operating system and/or shell:
 
   Displays and follows the Docker Compose container logs.
 
+  _This command accepts arguments._
+
+  > `make logs ARGS`
+
+  Example:
+
+  > `make logs php`
+
 
 - **up:**
 
   Starts the Docker containers.
+
+
+---
+
+
+## Help
+
+* ### Bad Gateway
+
+  > I'm seeing `Bad Gateway` while trying to access the frontend.
+
+  This issue is likely due to the Nuxt.JS server not being ready yet.
+
+  The Node container does the following when it launches: Installs NPM dependencies, Rebuilds Node SASS and then runs Nuxt.JS in development mode.
+
+  To confirm the container is ready, you can watch the container logs with the following command:
+
+  > ```make logs node```
