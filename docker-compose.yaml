@@ -24,6 +24,7 @@ services:
       DB_PASSWORD: $DB_PASSWORD
       DB_NAME: $DB_NAME
       DB_DRIVER: $DB_DRIVER
+      COLUMNS: 128
     volumes:
       - ./backend:/var/www/html
       - .env:/var/www/.env

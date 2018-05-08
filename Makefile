@@ -1,19 +1,13 @@
+include .env
+
 .DEFAULT_GOAL := help
-.PHONY: build clean down help up install
+.PHONY: build clean clean-backend clean-docker clean-frontend down drush help init-env install logs up
 
 
 # TARGETS
 
-## Ensure that the project has a .env file.
-.env:
-	@if [ ! -e .env ] ; then \
-		echo "\n${GREEN}>>> Creating .env file...${RESET}\n" ; \
-		echo "$$ ${YELLOW}cp .env-example .env${RESET}\n" ; \
-		cp .env-example .env ; \
-	fi
-
 ## Build composer dependencies.
-build: .env up
+build: up
 	$(call title,Installing composer dependencies)
 	$(call exec,docker-compose exec php composer install)
 
@@ -36,9 +30,14 @@ clean-frontend:
 	$(call exec,cd frontend && rm -rf .nuxt dist node_modules)
 
 ## Stop docker containers.
-down: .env
+down:
 	$(call title,Stopping docker containers)
 	$(call exec,docker-compose stop)
+
+## Execute a Drush (DRUpal SHell) command.
+drush:
+	$(call title,Executing drush command inside php container)
+	$(call exec,docker-compose exec php drush -r $(DRUPAL_ROOT) $(filter-out $@,$(MAKECMDGOALS)))
 
 ## Display this help message.
 help:
@@ -57,18 +56,26 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
+## Initialises projects .env file.
+init-env:
+	@if [ ! -e .env ] ; then \
+		echo "\n${GREEN}>>> Creating .env file...${RESET}\n" ; \
+		echo "$$ ${YELLOW}cp .env-example .env${RESET}\n" ; \
+		cp .env-example .env ; \
+	fi
+
 ## Install Drupal.
-install: build
+install: init-env build
 	$(call title,Installing Drupal)
 	$(call exec,docker-compose exec php drush --root=/var/www/html/web -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL)
 
 ## Display docker logs.
-logs: up
+logs:
 	$(call title,Displaying docker logs)
 	$(call exec,docker-compose logs --follow)
 
 ## Start docker containers.
-up: .env
+up:
 	$(call title,Starting docker containers)
 	$(call exec,docker-compose up -d --remove-orphans)
 
@@ -82,9 +89,10 @@ YELLOW := $(shell tput -Txterm setaf 3)
 WHITE  := $(shell tput -Txterm setaf 7)
 RESET  := $(shell tput -Txterm sgr0)
 
-## Help variables.
+## Other variables.
 
-TARGET_MAX_CHAR_NUM=20
+DRUPAL_ROOT ?= /var/www/html/web
+TARGET_MAX_CHAR_NUM = 20
 
 
 # FUNCTIONS.
@@ -98,3 +106,8 @@ endef
 define title
 	@echo "\n${GREEN}>>> ${1}...${RESET}\n"
 endef
+
+
+# https://stackoverflow.com/a/6273809/1826109
+%:
+	@:
