@@ -15,6 +15,7 @@ This is the codebase for the Drupal Melbourne community website.
 * [Makefile commands](#makefile-commands)
 * [Help](#help)
   * [Bad Gateway](#bad-gateway)
+  * [API Timeout](#api-timeout)
 
 
 ---
@@ -55,7 +56,8 @@ A Makefile is provided to control your development environment and process.
 
 - **build:**
 
-  Ensures that the Docker containers are running, and executes `composer install` inside the PHP container.
+  Ensures that the Docker containers are running, and executes
+  `composer install` inside the PHP container.
 
 
 - **clean:**
@@ -90,7 +92,8 @@ A Makefile is provided to control your development environment and process.
 
   Runs Drush (DRUpal SHell) commands inside the PHP container.
 
-  *Important:* All Drush commands executed this way should be formatted as follows.
+  *Important:* All Drush commands executed this way should be formatted as
+  follows.
 
   > `make drush -- ARGS`
 
@@ -101,12 +104,14 @@ A Makefile is provided to control your development environment and process.
 
 - **init-env:**
 
-  Initializes the projects `.env` file, if it doesn't exist alread, by copying `.env-example`.
+  Initializes the projects `.env` file, if it doesn't exist alread, by copying
+  `.env-example`.
 
 
 - **install:**
 
-  Initializes `.env`, starts docker containers, builds dependencies and installs Drupal.
+  Initializes `.env`, starts docker containers, builds dependencies and installs
+  Drupal.
 
 
 - **logs:**
@@ -138,8 +143,20 @@ A Makefile is provided to control your development environment and process.
 
   This issue is likely due to the Nuxt.JS server not being ready yet.
 
-  The Node container does the following when it launches: Installs NPM dependencies, Rebuilds Node SASS and then runs Nuxt.JS in development mode.
+  The Node container does the following when it launches: Installs NPM
+  dependencies, Rebuilds Node SASS and then runs Nuxt.JS in development mode.
 
-  To confirm the container is ready, you can watch the container logs with the following command:
+  To confirm the container is ready, you can watch the container logs with the
+  following command:
 
   > ```make logs node```
+
+
+* ### API Timeout
+
+  > The API requests are all timing out.
+
+  In the case that your development environment is running slowly you may be
+  required to increase the timeout limit.
+
+  To do so, open your projects `.env` file and increase the `API_TIMEOUT` value.

@@ -9,7 +9,7 @@ const waterwheel = new Waterwheel({
     username: process.env.API_CONSUMER_USERNAME,
     password: process.env.API_CONSUMER_PASSWORD
   },
-  timeout: 2500,
+  timeout: process.env.API_TIMEOUT || 2500,
   jsonapiPrefix: 'api'
 })
 
