@@ -74,6 +74,10 @@ install: init-env build
 	$(call title,Installing Drupal)
 	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL)
 
+	$(call title,Importing Meetup.com events)
+	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) cron)
+	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) queue-run drupalmel_meetup_events_queue)
+
 	$(call title,Installation complete)
 	@echo "${GREEN}Frontend :${RESET} http://$(PROJECT_BASE_URL)"
 	@echo "${GREEN}Backend  :${RESET} $(shell docker-compose exec php drush --root=$(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) uli)*"
