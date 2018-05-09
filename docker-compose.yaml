@@ -26,8 +26,8 @@ services:
       DB_DRIVER: $DB_DRIVER
       COLUMNS: 128
     volumes:
-      - ./backend:/var/www/html
-      - .env:/var/www/.env
+      - ./backend:/var/www/html:cached
+      - .env:/var/www/.env:cached
 
   ## Webserver.
   nginx:
@@ -61,8 +61,8 @@ services:
    expose:
      - "3000"
    volumes:
-     - ./frontend:/app
-     - .env:/.env
+     - ./frontend:/app:cached
+     - .env:/.env:cached
    command: sh -c 'npm install && npm rebuild node-sass && npm run dev'
 
   ## Mail debug.
