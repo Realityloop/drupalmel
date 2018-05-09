@@ -1,0 +1,18 @@
+uuid: fcf7c8ee-255a-4029-b7f1-79e524303d06
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.time
+field_name: time
+entity_type: node
+type: timestamp
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

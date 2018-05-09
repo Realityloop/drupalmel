@@ -1,16 +1,16 @@
-uuid: 867d0783-ac68-485d-8d2f-108fdd66b4b0
+uuid: 96359b77-e2a9-4cd2-a8d0-6a5c2e9de1b3
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.body
-    - node.type.events
+    - node.type.event
   module:
     - text
-id: node.events.body
+id: node.event.body
 field_name: body
 entity_type: node
-bundle: events
+bundle: event
 label: Body
 description: ''
 required: false

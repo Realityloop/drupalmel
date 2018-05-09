@@ -1,11 +1,11 @@
-uuid: 86ff1163-9879-4640-af01-b362ffcd6e4b
+uuid: 34471d1c-bfdd-4680-8902-a1939ba067ea
 langcode: en
 status: true
 dependencies:
   config:
-    - node.type.events
-id: node.events
+    - node.type.event
+id: node.event
 target_entity_type_id: node
-target_bundle: events
+target_bundle: event
 default_langcode: site_default
 language_alterable: false

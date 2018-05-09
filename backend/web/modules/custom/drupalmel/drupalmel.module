@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Contains drupalmel.module.
+ */
+
+use DMS\Service\Meetup\MeetupKeyAuthClient;
+use Dotenv\Dotenv;
+
+/**
+ * Implements hook_cron().
+ */
+function drupalmel_cron() {
+  // Load .env variables.
+  $dotenv = new Dotenv('/var/www');
+  $dotenv->load();
+
+  // Check for Meetup.com API Key.
+  $key = getenv('MEETUP_API_KEY');
+  if (!$key) {
+    return;
+  }
+
+  // Check this task hasn't been run in the last hour.
+  $last_run = \Drupal::state()->get('drupalmel.meetup_events_last_run', 0);
+  if ((\Drupal::time()->getRequestTime() - $last_run) <= 3600) {
+    return;
+  }
+
+  // Construct Meetup.com client.
+  $meetup = MeetupKeyAuthClient::factory(['key' => $key]);
+
+  // Setup Meetup Events queue.
+  $queue = \Drupal::queue('drupalmel_meetup_events_queue');
+
+  // Get Meetup.com events.
+  $events = $meetup->GetEvents(['group_urlname' => getenv('MEETUP_API_GROUP_URLNAME') ?: 'drupalmelbourne']);
+
+  // Add Meetup.com events to queue.
+  foreach ($events as $event) {
+    // Ensure this event doesn't already exist.
+    // @TODO - Provide ability to update events.
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'event')
+      ->condition('meetup_id', $event['id']);
+    if (!empty($query->execute())) {
+      continue;
+    }
+
+    $queue->createItem($event);
+  }
+
+  // Update last run.
+  \Drupal::state()->set('drupalmel.meetup_events_last_run', \Drupal::time()
+    ->getRequestTime());
+}

@@ -1,4 +1,4 @@
-uuid: e7c5c090-ab07-4e8e-9bca-44fc723a8f8c
+uuid: 6de11c3f-11ed-46fc-afe4-e1e59e7497d3
 langcode: en
 status: true
 dependencies:
@@ -6,10 +6,11 @@ dependencies:
     - menu_ui
 third_party_settings:
   menu_ui:
-    available_menus: {  }
-    parent: ''
-name: Events
-type: events
+    available_menus:
+      - main
+    parent: 'main:'
+name: Event
+type: event
 description: ''
 help: ''
 new_revision: true

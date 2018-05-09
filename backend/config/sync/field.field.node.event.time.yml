@@ -1,0 +1,21 @@
+uuid: a073b64a-11dd-4d6d-86bd-759c8b58723e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.time
+    - node.type.event
+id: node.event.time
+field_name: time
+entity_type: node
+bundle: event
+label: Time
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 1525843476
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

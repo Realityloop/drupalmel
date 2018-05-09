@@ -12,11 +12,19 @@
     ],
     "require": {
         "contentacms/contenta_jsonapi": "dev-8.x-1.x",
-        "drupal-composer/drupal-scaffold": "^2.2",
         "cweagans/composer-patches": "^1.6.0",
-        "webflo/drupal-core-strict": "8.5.1",
+        "dms/meetup-api-client": "^2.3",
+        "drupal-composer/drupal-scaffold": "^2.2",
+        "drupal/geolocation": "2.0-beta1",
         "drush/drush": "~8.1.12",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^2.4",
+        "webflo/drupal-core-strict": "8.5.1"
+    },
+    "require-dev": {
+        "drupal/devel": "1.2",
+        "drupal/console": "~1.0",
+        "drupal/coder": "^8.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -64,16 +72,11 @@
         "patches": {}
     },
     "config": {
+        "bin-dir": "bin/",
         "preferred-install": {
             "asm89/stack-cors": "source",
             "*": "auto"
         },
-        "bin-dir": "bin/"
-    },
-    "require-dev": {
-        "drupal/devel": "1.2",
-        "drupal/console": "~1.0",
-        "drupal/coder": "^8.2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
+        "sort-packages": true
     }
 }

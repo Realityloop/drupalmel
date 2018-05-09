@@ -1,16 +1,20 @@
-uuid: 3d57f32d-369b-4134-b19b-9cd1094200ba
+uuid: 8dd73f81-69b3-4cfd-8bc4-f49f9892faee
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.events.body
-    - node.type.events
+    - field.field.node.event.body
+    - field.field.node.event.location
+    - field.field.node.event.meetup_id
+    - field.field.node.event.time
+    - node.type.event
   module:
+    - geolocation_google_maps
     - path
     - text
-id: node.events.default
+id: node.event.default
 targetEntityType: node
-bundle: events
+bundle: event
 mode: default
 content:
   body:
@@ -35,6 +39,34 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
+  location:
+    weight: 124
+    settings:
+      default_longitude: null
+      default_latitude: null
+      auto_client_location: ''
+      auto_client_location_marker: ''
+      allow_override_map_settings: 0
+      google_map_settings:
+        map_features:
+          control_geocoder:
+            enabled: true
+            weight: -100
+          control_recenter:
+            enabled: true
+          control_locate:
+            enabled: true
+    third_party_settings: {  }
+    type: geolocation_googlegeocoder
+    region: content
+  meetup_id:
+    weight: 123
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   path:
     type: path
     weight: 30
@@ -62,6 +94,12 @@ content:
     weight: 16
     region: content
     third_party_settings: {  }
+  time:
+    weight: 122
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_timestamp
+    region: content
   title:
     type: string_textfield
     weight: -5
