@@ -42,7 +42,7 @@ drupal:
 ## Execute a Drush (DRUpal SHell) command.
 drush:
 	$(call title,Executing Drush command inside php container)
-	$(call exec,docker-compose exec php drush -r $(DRUPAL_ROOT) $(filter-out $@,$(MAKECMDGOALS)))
+	$(call exec,docker-compose exec php drush -r $(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) $(filter-out $@,$(MAKECMDGOALS)))
 
 ## Display this help message.
 help:
@@ -72,9 +72,13 @@ init-env:
 ## Install Drupal.
 install: init-env build
 	$(call title,Installing Drupal)
-	$(call exec,docker-compose exec php drush --root=/var/www/html/web -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL)
+	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL)
 
 	$(call title,Installation complete)
+	@echo "${GREEN}Frontend :${RESET} http://$(PROJECT_BASE_URL)"
+	@echo "${GREEN}Backend  :${RESET} $(shell docker-compose exec php drush --root=$(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) uli)*"
+	@echo "${GREEN}MailHog  :${RESET} http://mailhog.$(PROJECT_BASE_URL)"
+	@echo "\n* One time login link."
 
 ## Checking project coding standards.
 lint: lint-backend
