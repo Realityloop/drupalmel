@@ -1,1 +1,3 @@
-`drush si -y contenta_jsonapi install_configure_form.include_recipes_magazin=NULL`
+# ContentCMS backend for melbourne.drupal.org.au
+
+---

@@ -71,6 +71,7 @@
         "bin-dir": "bin/"
     },
     "require-dev": {
-        "drupal/devel": "1.2"
+        "drupal/devel": "1.2",
+        "drupal/console": "~1.0"
     }
 }

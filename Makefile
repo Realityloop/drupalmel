@@ -34,9 +34,14 @@ down:
 	$(call title,Stopping docker containers)
 	$(call exec,docker-compose stop)
 
+## Execute a Drupal Console command.
+drupal:
+	$(call title,Executing Drupal Console command inside php container)
+	$(call exec,docker-compose exec php drupal --root=$(DRUPAL_ROOT) $(filter-out $@,$(MAKECMDGOALS)))
+
 ## Execute a Drush (DRUpal SHell) command.
 drush:
-	$(call title,Executing drush command inside php container)
+	$(call title,Executing Drush command inside php container)
 	$(call exec,docker-compose exec php drush -r $(DRUPAL_ROOT) $(filter-out $@,$(MAKECMDGOALS)))
 
 ## Display this help message.

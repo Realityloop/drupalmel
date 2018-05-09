@@ -88,6 +88,20 @@ A Makefile is provided to control your development environment and process.
   Stops Docker containers.
 
 
+- **drupal:**
+
+  Runs Drupal Console commands inside the PHP container.
+
+  *Important:* All Drupal Console commands executed this way should be formatted as
+  follows.
+
+  > `make drupal -- ARGS`
+
+  Example:
+
+  > `make drupal -- cr all`
+  
+
 - **drush:**
 
   Runs Drush (DRUpal SHell) commands inside the PHP container.
