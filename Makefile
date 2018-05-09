@@ -1,7 +1,7 @@
 include .env
 
 .DEFAULT_GOAL := help
-.PHONY: build clean clean-backend clean-docker clean-frontend down drush drupal help init-env install lint lint-backend logs up
+.PHONY: build clean clean-backend clean-docker clean-frontend down drush drupal help init-env install lint lint-backend lint-frontend logs up
 
 
 # TARGETS
@@ -85,12 +85,17 @@ install: init-env build
 	@echo "\n* One time login link."
 
 ## Checking project coding standards.
-lint: lint-backend
+lint: lint-backend lint-frontend
 
 ## Check backend coding standards.
 lint-backend:
 	$(call title,Checking PHP coding standards)
 	$(call exec,docker-compose exec php phpcs)
+
+## Check frontend coding standards.
+lint-frontend:
+	$(call title,Checking JavaScript coding standards)
+	$(call exec,docker-compose exec node npm run lint)
 
 ## Display docker logs.
 logs:

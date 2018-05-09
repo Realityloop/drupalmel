@@ -132,11 +132,17 @@ A Makefile is provided to control your development environment and process.
 
   Executes the following commands:
   - lint-backend
+  - lint-frontend
 
 
 - **lint-backend:**
 
-  Runs code linting over the backend with PHP CS.
+  Runs code linting over the backend with PHP_CodeSniffer.
+
+
+- **lint-frontend:**
+
+  Runs code linting over the frontend with ESLint.
     
 
 - **logs:**
