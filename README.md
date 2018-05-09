@@ -128,6 +128,17 @@ A Makefile is provided to control your development environment and process.
   Drupal.
 
 
+- **lint:**
+
+  Executes the following commands:
+  - lint-backend
+
+
+- **lint-backend:**
+
+  Runs code linting over the backend with PHP CS.
+    
+
 - **logs:**
 
   Displays and follows the Docker Compose container logs.

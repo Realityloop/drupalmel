@@ -25,6 +25,7 @@ services:
       DB_NAME: $DB_NAME
       DB_DRIVER: $DB_DRIVER
       COLUMNS: 128
+      PATH: /var/www/html/bin:$PATH
     volumes:
       - ./backend:/var/www/html:cached
       - .env:/var/www/.env:cached

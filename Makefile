@@ -1,7 +1,7 @@
 include .env
 
 .DEFAULT_GOAL := help
-.PHONY: build clean clean-backend clean-docker clean-frontend down drush help init-env install logs up
+.PHONY: build clean clean-backend clean-docker clean-frontend down drush drupal help init-env install lint lint-backend logs up
 
 
 # TARGETS
@@ -73,6 +73,16 @@ init-env:
 install: init-env build
 	$(call title,Installing Drupal)
 	$(call exec,docker-compose exec php drush --root=/var/www/html/web -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL)
+
+	$(call title,Installation complete)
+
+## Checking project coding standards.
+lint: lint-backend
+
+## Check backend coding standards.
+lint-backend:
+	$(call title,Checking PHP coding standards)
+	$(call exec,docker-compose exec php phpcs)
 
 ## Display docker logs.
 logs:
