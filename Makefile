@@ -3,7 +3,6 @@ include .env
 .DEFAULT_GOAL := help
 .PHONY: build clean clean-backend clean-docker clean-frontend down drush drupal help init-env install lint lint-backend lint-frontend logs up
 
-
 # TARGETS
 
 ## Build composer dependencies.
@@ -64,8 +63,8 @@ help:
 ## Initialises projects .env file.
 init-env:
 	@if [ ! -e .env ] ; then \
-		echo "\n${GREEN}>>> Creating .env file...${RESET}\n" ; \
-		echo "$$ ${YELLOW}cp .env-example .env${RESET}\n" ; \
+		printf "\n${GREEN}>>> Creating .env file...${RESET}\n" ; \
+		printf "$$ ${YELLOW}cp .env-example .env${RESET}\n" ; \
 		cp .env-example .env ; \
 	fi
 
@@ -79,10 +78,10 @@ install: init-env build
 	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) queue-run drupalmel_meetup_events_queue)
 
 	$(call title,Installation complete)
-	@echo "${GREEN}Frontend :${RESET} http://$(PROJECT_BASE_URL)"
-	@echo "${GREEN}Backend  :${RESET} $(shell docker-compose exec php drush --root=$(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) uli)*"
-	@echo "${GREEN}MailHog  :${RESET} http://mailhog.$(PROJECT_BASE_URL)"
-	@echo "\n* One time login link."
+	@printf "${GREEN}Frontend :${RESET} http://$(PROJECT_BASE_URL)"
+	@printf "${GREEN}Backend  :${RESET} $(shell docker-compose exec php drush --root=$(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) uli)*"
+	@printf "${GREEN}MailHog  :${RESET} http://mailhog.$(PROJECT_BASE_URL)"
+	@printf "\n* One time login link."
 
 ## Checking project coding standards.
 lint: lint-backend lint-frontend
@@ -105,7 +104,7 @@ logs:
 ## Start docker containers.
 up:
 	$(call title,Starting docker containers)
-	$(call exec,docker-compose up -d --remove-orphans)
+	$(call exec,COMPOSE_CONVERT_WINDOWS_PATHS=1 docker-compose up -d --remove-orphans)
 
 
 # VARIABLES.
@@ -127,12 +126,12 @@ TARGET_MAX_CHAR_NUM = 20
 
 ## Execute command and display executed command to user.
 define exec
-	@echo "$$ ${YELLOW}${1}${RESET}\n" && $1
+	@printf "$$ ${YELLOW}${1}${RESET}\r\n" && $1
 endef
 
 ## Display the target title to user.
 define title
-	@echo "\n${GREEN}>>> ${1}...${RESET}\n"
+	@printf "\n${GREEN}>>> ${1}...${RESET}\n"
 endef
 
 
