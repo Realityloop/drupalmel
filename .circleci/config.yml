@@ -1,35 +1,117 @@
 version: 2
 
+aliases:
+
+  # Restore backend cache.
+  - &steps_cache_restore_backend
+    restore_cache:
+      name: Restore backend cache
+      keys:
+      - v4-backend-{{ checksum "backend/composer.lock" }}
+      # fallback to using the latest cache if no exact match is found
+      - v4-backend-
+
+  # Restore frontend cache.
+  - &steps_cache_restore_frontend
+    restore_cache:
+      name: Restore frontend cache
+      keys:
+      - v1-frontend-{{ checksum "frontend/package-lock.json" }}
+      # fallback to using the latest cache if no exact match is found
+      - v1-frontend-
+
 jobs:
+
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/php:7.1.5-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mysql:9.4
-
+    machine: true
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      # Download and cache dependencies
-#      - restore_cache:
-#          keys:
-#          - v1-dependencies-{{ checksum "composer.json" }}
-#          # fallback to using the latest cache if no exact match is found
-#          - v1-dependencies-
+      # Restore caches.
+      - *steps_cache_restore_backend
+      - *steps_cache_restore_frontend
 
-#      - run: composer install -n --prefer-dist
-      - run: ls -la
+      # Modify permissions so the PHP and Node containers can build their dependencies.
+      - run:
+          name: Fix permissions
+          command: sudo chown -R ubuntu.ubuntu *
 
-#      - save_cache:
-#          paths:
-#            - ./vendor
-#          key: v1-dependencies-{{ checksum "composer.json" }}
+      # Setup the .env file.
+      # @TODO - Maybe we shouldn't require this as `make install` should do this. Manual tests required.
+      - run:
+          name: Setup the project .env file
+          command: cp .env-example .env
 
-#      # run tests!
-#      - run: phpunit
+      # Run the Makefile install command.
+      - run:
+          name: Run the Makefile install command
+          command: make install
+
+      # Save backend cache.
+      - save_cache:
+          name: Save backend cache
+          paths:
+          - ./backend/bin
+          - ./backend/vendor
+          - ./backend/web
+          key: v4-backend-{{ checksum "backend/composer.lock" }}
+
+      # Save frontend cache.
+      - save_cache:
+          name: Save frontend cache
+          paths:
+          - ./frontend/node_modules
+          key: v1-frontend-{{ checksum "frontend/package-lock.json" }}
+
+      # Backup installed database.
+      - run:
+          name: Backup installed database
+          command: make db-export database.sql
+
+      # Store database in workspace
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - .env
+            - database/database.sql
+
+  test:
+    machine: true
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Restore workspace
+      - attach_workspace:
+          at: ~/repo
+
+      # Restore caches.
+      - *steps_cache_restore_backend
+      - *steps_cache_restore_frontend
+
+      # Modify permissions so the PHP and Node containers can build their dependencies.
+      - run:
+          name: Fix permissions
+          command: sudo chown -R ubuntu.ubuntu *
+
+      # Spin up Docker containers
+      - run:
+          name: Turn on Docker containers
+          command: make up
+
+      - run:
+          name: Import database
+          command: make db-status && make db-import database.sql
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build

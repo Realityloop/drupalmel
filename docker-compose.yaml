@@ -27,8 +27,9 @@ services:
       DB_DRIVER: $DB_DRIVER
       COLUMNS: 128
     volumes:
-      - ./backend:/var/www/html:cached
       - .env:/var/www/.env:cached
+      - ./backend:/var/www/html:cached
+      - ./database:/var/www/database:cached
 
   ## Webserver.
   nginx:

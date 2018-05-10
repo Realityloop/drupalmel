@@ -1,2 +1,6 @@
 # Ignore .env files as they are personal
 /.env
+
+# Database backups.
+/database/*
+!/database/.gitkeep
