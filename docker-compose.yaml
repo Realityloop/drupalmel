@@ -18,6 +18,7 @@ services:
     image: wodby/drupal-php:$PHP_TAG
     container_name: "${PROJECT_NAME}_php"
     environment:
+      ROOT: /var/www
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       DB_HOST: $DB_HOST
       DB_USER: $DB_USER
@@ -25,7 +26,6 @@ services:
       DB_NAME: $DB_NAME
       DB_DRIVER: $DB_DRIVER
       COLUMNS: 128
-      PATH: /var/www/html/bin:$PATH
     volumes:
       - ./backend:/var/www/html:cached
       - .env:/var/www/.env:cached
