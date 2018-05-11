@@ -1,0 +1,4 @@
+/html_report/*
+!/html_report/.gitkeep
+/screenshots/*
+!/screenshots/.gitkeep

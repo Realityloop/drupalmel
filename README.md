@@ -145,6 +145,15 @@ A Makefile is provided to control your development environment and process.
 
   > `make logs php`
 
+* **test:**
+
+  Executes the following commands:
+  * test-behat
+
+* **test-behat:**
+
+  Runs Behat tests.
+
 * **up:**
 
   Starts the Docker containers.

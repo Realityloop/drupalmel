@@ -1,7 +1,7 @@
 include .env
 
 .DEFAULT_GOAL := help
-.PHONY: build clean clean-backend clean-docker clean-frontend db-export db-import db-status down drush drupal help init-env install lint lint-backend lint-frontend logs up
+.PHONY: build clean clean-backend clean-docker clean-frontend db-export db-import db-status down drush drupal help init-env install lint lint-backend lint-frontend logs test test-behat up
 
 # TARGETS
 
@@ -93,9 +93,9 @@ install: init-env build db-status
 	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) queue-run drupalmel_meetup_events_queue)
 
 	$(call title,Installation complete)
-	@printf "${GREEN}Frontend :${RESET} http://$(PROJECT_BASE_URL)"
-	@printf "${GREEN}Backend  :${RESET} http://cms.$(PROJECT_BASE_URL)"
-	@printf "${GREEN}MailHog  :${RESET} http://mailhog.$(PROJECT_BASE_URL)"
+	@printf "${GREEN}Frontend :${RESET} http://$(PROJECT_BASE_URL)\n"
+	@printf "${GREEN}Backend  :${RESET} http://cms.$(PROJECT_BASE_URL)\n"
+	@printf "${GREEN}MailHog  :${RESET} http://mailhog.$(PROJECT_BASE_URL)\n"
 
 ## Checking project coding standards.
 lint: lint-backend lint-frontend
@@ -114,6 +114,14 @@ lint-frontend:
 logs:
 	$(call title,Displaying docker logs)
 	$(call exec,docker-compose logs --follow $(filter-out $@,$(MAKECMDGOALS)))
+
+## Run all tests.
+test: test-behat
+
+## Run behat tests.
+test-behat:
+	$(call title,Running Behat tests)
+	$(call exec,docker-compose exec behat behat --colors --format=pretty --out=std --format=html --out=html_report)
 
 ## Start docker containers.
 up:
@@ -140,12 +148,12 @@ TARGET_MAX_CHAR_NUM = 20
 
 ## Execute command and display executed command to user.
 define exec
-	@printf "$$ ${YELLOW}${1}${RESET}\r\n" && $1
+	@printf "$$ ${YELLOW}${1}${RESET}\n\n" && $1
 endef
 
 ## Display the target title to user.
 define title
-	@printf "\n${GREEN}>>> ${1}...${RESET}\n"
+	@printf "\n${GREEN}>>> ${1}...${RESET}\n\n"
 endef
 
 

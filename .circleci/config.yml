@@ -7,9 +7,9 @@ aliases:
     restore_cache:
       name: Restore backend cache
       keys:
-      - v4-backend-{{ checksum "backend/composer.lock" }}
+      - v7-backend-{{ checksum "backend/composer.lock" }}
       # fallback to using the latest cache if no exact match is found
-      - v4-backend-
+      - v7-backend-
 
   # Restore frontend cache.
   - &steps_cache_restore_frontend
@@ -33,16 +33,16 @@ jobs:
       - *steps_cache_restore_backend
       - *steps_cache_restore_frontend
 
-      # Modify permissions so the PHP and Node containers can build their dependencies.
+      # Modify permissions so the PHP and Node containers can build their
+      # dependencies.
       - run:
           name: Fix permissions
           command: sudo chown -R ubuntu.ubuntu *
 
       # Setup the .env file.
-      # @TODO - Maybe we shouldn't require this as `make install` should do this. Manual tests required.
       - run:
           name: Setup the project .env file
-          command: cp .env-example .env
+          command: sed 's/MEETUP_API_KEY=/MEETUP_API_KEY='"$MEETUP_API_KEY"'/g' .env-example > .env
 
       # Run the Makefile install command.
       - run:
@@ -53,16 +53,20 @@ jobs:
       - save_cache:
           name: Save backend cache
           paths:
-          - ./backend/bin
-          - ./backend/vendor
-          - ./backend/web
-          key: v4-backend-{{ checksum "backend/composer.lock" }}
+            - ./backend/bin
+            - ./backend/vendor
+            - ./backend/web/core
+            - ./backend/web/modules/contrib
+            - ./backend/web/profiles/contrib
+            - ./backend/web/themes/contrib
+            - ./backend/web/libraries
+          key: v7-backend-{{ checksum "backend/composer.lock" }}
 
       # Save frontend cache.
       - save_cache:
           name: Save frontend cache
           paths:
-          - ./frontend/node_modules
+            - ./frontend/node_modules
           key: v1-frontend-{{ checksum "frontend/package-lock.json" }}
 
       # Backup installed database.
@@ -70,12 +74,18 @@ jobs:
           name: Backup installed database
           command: make db-export database.sql
 
-      # Store database in workspace
+      # Store database in workspace.
       - persist_to_workspace:
           root: ~/repo
           paths:
             - .env
             - database/database.sql
+
+      # Store install artifacts.
+      - store_artifacts:
+          name: Store install artifacts
+          path: ~/repo/database/database.sql
+          destination: database/database.sql
 
   test:
     machine: true
@@ -92,19 +102,46 @@ jobs:
       - *steps_cache_restore_backend
       - *steps_cache_restore_frontend
 
-      # Modify permissions so the PHP and Node containers can build their dependencies.
+      # Modify permissions so the PHP and Node containers can build their
+      # dependencies.
       - run:
           name: Fix permissions
           command: sudo chown -R ubuntu.ubuntu *
 
-      # Spin up Docker containers
+      # Spin up Docker containers.
       - run:
           name: Turn on Docker containers
           command: make up
 
+      # Run code linting.
       - run:
-          name: Import database
-          command: make db-status && make db-import database.sql
+          name: Running code linting
+          command: make lint
+
+      # Wait for database.
+      - run:
+          name: Wait for database to start
+          command: make db-status
+
+      # Importing database backup.
+      - run:
+          name: Import database backup
+          command: make db-import database.sql
+
+      # Run Behat tests.
+      - run:
+          name: Run Behat tests
+          command: make test-behat
+
+      # Save Behat artifacts.
+      - store_artifacts:
+          name: Store Behat HTML report
+          path: ~/repo/tests/behat/html_report
+          destination: behat/html_report
+      - store_artifacts:
+          name: Store Behat screenshots
+          path: ~/repo/tests/behat/screenshots
+          destination: behat/screenshots
 
 workflows:
   version: 2
