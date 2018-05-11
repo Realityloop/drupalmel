@@ -2,6 +2,8 @@
 
 This is the codebase for the Drupal Melbourne community website.
 
+[![CircleCI](https://circleci.com/gh/Realityloop/drupalmel/tree/develop.svg?style=svg)](https://circleci.com/gh/Realityloop/drupalmel/tree/develop)
+
 ---
 
 ## Table of Contents
