@@ -67,6 +67,18 @@ A Makefile is provided to control your development environment and process.
 
   Removes frontend build files.
 
+* **db-export:**
+
+  Exports a database file (argument required) relative to the `database` folder.
+
+* **db-import:**
+
+  Imports a database file (argument required) relative to the `database` folder.
+
+* **db-status:**
+
+  Checks the status of the MariaDB Docker container.
+
 * **down:**
 
   Stops Docker containers.
@@ -75,8 +87,8 @@ A Makefile is provided to control your development environment and process.
 
   Runs Drupal Console commands inside the PHP container.
 
-  *Important:* All Drupal Console commands executed this way should be formatted as
-  follows.
+  *Important:* All Drupal Console commands executed this way should be formatted
+  as follows.
 
   > `make drupal -- ARGS`
 
