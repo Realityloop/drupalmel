@@ -1,0 +1,6 @@
+/bitmaps_*/*
+!/bitmaps_*/.gitkeep
+/ci_report/*
+!/ci_report/.gitkeep
+/html_report/*
+!/html_report/.gitkeep

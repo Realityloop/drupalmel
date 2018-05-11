@@ -116,12 +116,18 @@ logs:
 	$(call exec,docker-compose logs --follow $(filter-out $@,$(MAKECMDGOALS)))
 
 ## Run all tests.
-test: test-behat
+test: test-behat test-backstopjs
 
 ## Run behat tests.
 test-behat:
 	$(call title,Running Behat tests)
 	$(call exec,docker-compose exec behat behat --colors --format=pretty --out=std --format=html --out=html_report)
+
+test-backstopjs:
+	$(call title,Running BackstopJS tests)
+	docker run --network=repo_default --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs reference
+	docker run --network=repo_default --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs test
+	#docker inspect $(docker-compose ps -q node) -f "{{json .NetworkSettings.Networks }}"
 
 ## Start docker containers.
 up:
