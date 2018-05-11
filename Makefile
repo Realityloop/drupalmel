@@ -36,12 +36,12 @@ db-export:
 ## Import a database backup.
 db-import:
 	$(call title,Importing database backup)
-	docker-compose exec php sh -c "drush sqlc -r $(DRUPAL_ROOT) < /var/www/database/$(filter-out $@,$(MAKECMDGOALS))"
+	$(call exec,docker-compose exec php sh -c "drush sqlc -r $(DRUPAL_ROOT) < /var/www/database/$(filter-out $@,$(MAKECMDGOALS))")
 
 ## Check if MariaDB is running.
 db-status:
 	$(call title,Ensuring MariaDB is running)
-	$(call exec,docker-compose exec mariadb make check-ready -f /usr/local/bin/actions.mk max_try=12 wait_seconds=5)
+	$(call exec,docker-compose exec mariadb wait_for "mysqladmin -uroot -p${DB_PASSWORD} -h${DB_HOST} status &> /dev/null" "MariaDB" $(DB_HOST) 12 5 0)
 
 ## Stop docker containers.
 down:
@@ -148,7 +148,7 @@ TARGET_MAX_CHAR_NUM = 20
 
 ## Execute command and display executed command to user.
 define exec
-	@printf "$$ ${YELLOW}${1}${RESET}\n\n" && $1
+	@printf "$$ ${YELLOW}${subst ",',${1}}${RESET}\n\n" && $1
 endef
 
 ## Display the target title to user.
