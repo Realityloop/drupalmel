@@ -148,7 +148,7 @@ jobs:
           name: Run BackstopJS tests
           # @TODO: Replace below once BackstopJS tests are expecte to pass.
           # command: make test-backstopjs
-          command: make test-backstopjs | true
+          command: make test-backstopjs || true
 
       # Save BackstopJS artifacts.
       - store_artifacts:
