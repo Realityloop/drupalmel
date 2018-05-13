@@ -86,16 +86,18 @@ init-env:
 ## Install Drupal.
 install: init-env build db-status
 	$(call title,Installing Drupal)
-	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL)
+	$(call exec,chmod +w backend/web/sites/default/settings.php | true)
+	$(call exec,docker-compose exec php sh -c "drush --root=$(DRUPAL_ROOT) -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL")
 
 	$(call title,Importing Meetup.com events)
-	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) cron)
-	$(call exec,docker-compose exec php drush --root=$(DRUPAL_ROOT) queue-run drupalmel_meetup_events_queue)
+	$(call exec,docker-compose exec php sh -c "drush --root=$(DRUPAL_ROOT) cron")
+	$(call exec,docker-compose exec php sh -c "drush --root=$(DRUPAL_ROOT) queue-run drupalmel_meetup_events_queue")
 
 	$(call title,Installation complete)
-	@printf "${GREEN}Frontend :${RESET} http://$(PROJECT_BASE_URL)\n"
-	@printf "${GREEN}Backend  :${RESET} http://cms.$(PROJECT_BASE_URL)\n"
-	@printf "${GREEN}MailHog  :${RESET} http://mailhog.$(PROJECT_BASE_URL)\n"
+	@printf "${GREEN}Frontend      :${RESET} http://$(PROJECT_BASE_URL)\n"
+	@printf "${GREEN}Backend       :${RESET} http://cms.$(PROJECT_BASE_URL)\n"
+	@printf "${GREEN}MailHog       :${RESET} http://mailhog.$(PROJECT_BASE_URL)\n\n"
+	@printf "${GREEN}One-time login:${RESET} " && docker-compose exec php sh -c "drush --root=$(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) uli"
 
 ## Checking project coding standards.
 lint: lint-backend lint-frontend
