@@ -125,9 +125,8 @@ test-behat:
 
 test-backstopjs:
 	$(call title,Running BackstopJS tests)
-	docker run --network=repo_default --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs reference
-	docker run --network=repo_default --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs test
-	#docker inspect $(docker-compose ps -q node) -f "{{json .NetworkSettings.Networks }}"
+	docker run --network=$(DOCKER_NETWORK) --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs reference
+	docker run --network=$(DOCKER_NETWORK) --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs test
 
 ## Start docker containers.
 up:
@@ -146,6 +145,7 @@ RESET  := $(shell tput -Txterm sgr0)
 
 ## Other variables.
 
+DOCKER_NETWORK = $(call shell,docker inspect $(call shell,docker-compose ps -q traefik) -f "{{ json .NetworkSettings.Networks }}" | sed -r 's/^\{"([a-zA-Z_]*).*/\1/g')
 DRUPAL_ROOT ?= /var/www/html/web
 TARGET_MAX_CHAR_NUM = 20
 
