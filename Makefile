@@ -118,12 +118,17 @@ logs:
 	$(call exec,docker-compose logs --follow $(filter-out $@,$(MAKECMDGOALS)))
 
 ## Run all tests.
-test: test-behat
+test: test-behat test-backstopjs
 
 ## Run behat tests.
 test-behat:
 	$(call title,Running Behat tests)
 	$(call exec,docker-compose exec behat behat --colors --format=pretty --out=std --format=html --out=html_report)
+
+test-backstopjs:
+	$(call title,Running BackstopJS tests)
+	docker run --network=$(DOCKER_NETWORK) --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs reference
+	docker run --network=$(DOCKER_NETWORK) --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs test
 
 ## Start docker containers.
 up:
@@ -142,6 +147,7 @@ RESET  := $(shell tput -Txterm sgr0)
 
 ## Other variables.
 
+DOCKER_NETWORK = $(call shell,docker inspect $(call shell,docker-compose ps -q traefik) -f "{{ json .NetworkSettings.Networks }}" | sed -r 's/^\{"([a-zA-Z_]*).*/\1/g')
 DRUPAL_ROOT ?= /var/www/html/web
 TARGET_MAX_CHAR_NUM = 20
 

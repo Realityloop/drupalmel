@@ -1,0 +1,69 @@
+{
+  "id": "drupalmel",
+
+  "viewports": [
+    {
+      "label": "xs",
+      "width": 411,
+      "height": 731
+    },
+    {
+      "label": "sm",
+      "width": 576,
+      "height": 768
+    },
+    {
+      "label": "md",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "label": "lg",
+      "width": 992,
+      "height": 1322
+    }
+  ],
+
+  "onBeforeScript": "puppet/onBefore.js",
+  "onReadyScript": "puppet/onReady.js",
+
+  "scenarios": [
+    {
+      "label": "DrupalMelbourne",
+      "cookiePath": "",
+      "url": "http://node:3000/",
+      "referenceUrl": "http://melbourne.drupal.org.au",
+      "readyEvent": "",
+      "readySelector": "",
+      "delay": 0,
+      "hideSelectors": [],
+      "removeSelectors": [],
+      "hoverSelector": "",
+      "clickSelector": "",
+      "postInteractionWait": 0,
+      "selectors": [],
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    }
+  ],
+
+  "paths": {
+    "bitmaps_reference": "bitmaps_reference",
+    "bitmaps_test": "bitmaps_test",
+    "engine_scripts": "engine_scripts",
+    "html_report": "html_report",
+    "ci_report": "ci_report"
+  },
+
+  "report": ["browser", "CI"],
+  "engine": "puppeteer",
+  "engineOptions": {
+    "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+  },
+  "engineFlags": [],
+  "asyncCaptureLimit": 5,
+  "asyncCompareLimit": 50,
+  "debug": false,
+  "debugWindow": false
+}

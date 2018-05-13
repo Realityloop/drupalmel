@@ -143,6 +143,27 @@ jobs:
           path: ~/repo/tests/behat/screenshots
           destination: behat/screenshots
 
+      # Run BackstopJS tests.
+      - run:
+          name: Run BackstopJS tests
+          # @TODO: Replace below once BackstopJS tests are expecte to pass.
+          # command: make test-backstopjs
+          command: make test-backstopjs || true
+
+      # Save BackstopJS artifacts.
+      - store_artifacts:
+          name: Store BackstopJS HTML report
+          path: ~/repo/tests/backstopjs/html_report
+          destination: backstopjs/html_report
+      - store_artifacts:
+          name: Store BackstopJS Reference screenshots
+          path: ~/repo/tests/backstopjs/bitmaps_reference
+          destination: backstopjs/bitmaps_reference
+      - store_artifacts:
+          name: Store BackstopJS Test screenshots
+          path: ~/repo/tests/backstopjs/bitmaps_test
+          destination: backstopjs/bitmaps_test
+
 workflows:
   version: 2
 
