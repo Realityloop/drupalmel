@@ -13,7 +13,7 @@ services:
       MYSQL_USER: $DB_USER
       MYSQL_PASSWORD: $DB_PASSWORD
 
-  ## PHP / Codebase
+  ## PHP / Codebase.
   php:
     image: wodby/drupal-php:$PHP_TAG
     container_name: "${PROJECT_NAME}_php"
@@ -30,6 +30,8 @@ services:
       - .env:/var/www/.env:cached
       - ./backend:/var/www/html:cached
       - ./database:/var/www/database:cached
+      - ./tests/behat:/var/www/behat:cached
+      - ./tests/results/behat:/var/www/behat/artefacts/ci_report:cached
 
   ## Webserver.
   nginx:
@@ -66,18 +68,6 @@ services:
       - ./frontend:/app:cached
       - .env:/.env:cached
     command: sh -c 'npm install && npm rebuild node-sass && npm run dev'
-
-  ## Behat.
-  behat:
-    image: docksal/behat
-    container_name: "${PROJECT_NAME}_behat"
-    entrypoint: "php -S 0.0.0.0:80"
-    labels:
-      - 'traefik.backend=behat'
-      - 'traefik.port=80'
-      - 'traefik.frontend.rule=Host:behat.${PROJECT_BASE_URL}'
-    volumes:
-      - ./tests/behat:/src:cached
 
   ## Browser.
   browser:

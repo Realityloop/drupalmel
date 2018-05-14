@@ -1,4 +1,6 @@
-/html_report/*
-!/html_report/.gitkeep
-/screenshots/*
-!/screenshots/.gitkeep
+/artefacts/html_report/*
+!/artefacts/html_report/.gitkeep
+/artefacts/screenshots/*
+!/artefacts/screenshots/.gitkeep
+/artefacts/test_results/*
+!/artefacts/test_results/.gitkeep

@@ -123,7 +123,7 @@ test: test-behat test-backstopjs
 ## Run behat tests.
 test-behat:
 	$(call title,Running Behat tests)
-	$(call exec,docker-compose exec behat behat --colors --format=pretty --out=std --format=html --out=html_report)
+	$(call exec,docker-compose exec php sh -c "cd ../behat && ../html/bin/behat --colors --format=pretty --out=std --format=junit --format=html $(filter-out $@,$(MAKECMDGOALS))")
 
 test-backstopjs:
 	$(call title,Running BackstopJS tests)

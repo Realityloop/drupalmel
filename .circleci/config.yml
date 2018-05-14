@@ -7,9 +7,9 @@ aliases:
     restore_cache:
       name: Restore backend cache
       keys:
-      - v7-backend-{{ checksum "backend/composer.lock" }}
+      - v8-backend-{{ checksum "backend/composer.lock" }}
       # fallback to using the latest cache if no exact match is found
-      - v7-backend-
+      - v8-backend-
 
   # Restore frontend cache.
   - &steps_cache_restore_frontend
@@ -60,7 +60,7 @@ jobs:
             - ./backend/web/profiles/contrib
             - ./backend/web/themes/contrib
             - ./backend/web/libraries
-          key: v7-backend-{{ checksum "backend/composer.lock" }}
+          key: v8-backend-{{ checksum "backend/composer.lock" }}
 
       # Save frontend cache.
       - save_cache:
@@ -133,15 +133,11 @@ jobs:
           name: Run Behat tests
           command: make test-behat
 
-      # Save Behat artifacts.
+      # Save Behat artefacts.
       - store_artifacts:
-          name: Store Behat HTML report
-          path: ~/repo/tests/behat/html_report
-          destination: behat/html_report
-      - store_artifacts:
-          name: Store Behat screenshots
-          path: ~/repo/tests/behat/screenshots
-          destination: behat/screenshots
+          name: Store Behat artefacts
+          path: ~/repo/tests/behat/artefacts
+          destination: behat
 
       # Run BackstopJS tests.
       - run:
@@ -163,6 +159,10 @@ jobs:
           name: Store BackstopJS Test screenshots
           path: ~/repo/tests/backstopjs/bitmaps_test
           destination: backstopjs/bitmaps_test
+
+      # Save test results.
+      - store_test_results:
+          path: ~/repo/tests/results
 
 workflows:
   version: 2

@@ -9,11 +9,16 @@ default:
         - Drupal\DrupalExtension\Context\DrushContext
         - FeatureContext:
             parameters:
-              screenshot_dir: %paths.base%/screenshots
+              screenshot_dir: %paths.base%/artefacts/screenshots
+
+  formatters: 
+    html:
+      output_path: %paths.base%/artefacts/html_report/
 
   extensions:
     Behat\MinkExtension:
       goutte: ~
+      base_url: http://cms.drupalmel.localhost/
       selenium2: ~
       # Use goutte (basic PHP browser, super fast) as the default driver.
       default_session: goutte
@@ -27,26 +32,30 @@ default:
         wd_host: http://browser:4444/wd/hub
         capabilities: { "browser": "chrome", "version": "*" }
 
+    # Drupal Extension.
     Drupal\DrupalExtension:
-      # Map template regions.
-      region_map:
-        header: "#header"
-        content: "#content"
-        footer: "#footer"
-      # Map selectors.
-      selectors:
-        message_selector: '#messages'
-        error_message_selector: '#messages .messages.error'
-        success_message_selector: '#messages .messages.status'
+      blackbox: ~
+      api_driver: 'drupal'
+      drush:
+        root: '/var/www/html/web'
+      drupal:
+        drupal_root: '/var/www/html/web'
 
-     # Behat HTML formatter.
-    emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+    # HTML formatter.
+    elkan\BehatFormatter\BehatFormatterExtension:
+      projectName: DrupalMelbourne
       name: html
       renderer: Twig,Behat2
       file_name: index
       print_args: true
       print_outp: true
       loop_break: true
+      show_tags: true
+
+    # JUnit formatter.
+    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+      filename: results.xml
+      outputDir: %paths.base%/artefacts/ci_report/
 
 docker:
   extensions:
