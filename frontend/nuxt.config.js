@@ -45,6 +45,7 @@ module.exports = {
 
   plugins: [
     '~/components',
+    '~/plugins/moment',
     '~/plugins/waterwheel'
   ],
 

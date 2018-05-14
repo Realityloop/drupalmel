@@ -1,14 +1,39 @@
+import { Deserializer } from 'jsonapi-serializer'
+import moment from 'moment'
+
 export const state = () => ({
-  index: {}
+  index: [{
+    title: 'Loading...'
+  }]
 })
 
 export const actions = {
-  get (state) {
-    this.$waterwheel.jsonapi.get('node/events', {})
-      .then(res => {
-        console.log(res)
-        return {}
+  get({commit}) {
+    return this.$waterwheel.jsonapi.get('node/event', {
+      fields: {
+        'node--event': 'title,location,meetup_id,time'
+      },
+      sort: 'time',
+    })
+
+      .then(res => new Deserializer({
+        keyForAttribute: 'camelCase'
       })
-    state.index = { 'test': true }
+
+        .deserialize(res, (err, data) => {
+          if (!err) {
+            return data
+          }
+        }))
+
+      .then(res => {
+        commit('set', res)
+      })
+  }
+}
+
+export const mutations = {
+  set(state, res) {
+    state.index = res
   }
 }
