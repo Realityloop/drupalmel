@@ -36,7 +36,7 @@ db-export:
 ## Import a database backup.
 db-import:
 	$(call title,Importing database backup)
-	$(call exec,docker-compose exec php sh -c "drush sqlc -r $(DRUPAL_ROOT) < /var/www/database/$(filter-out $@,$(MAKECMDGOALS))")
+	$(call exec,docker-compose exec php sh -c "drush sqlc --root=$(DRUPAL_ROOT) < /var/www/database/$(filter-out $@,$(MAKECMDGOALS))")
 
 ## Check if MariaDB is running.
 db-status:
@@ -56,7 +56,7 @@ drupal:
 ## Execute a Drush (DRUpal SHell) command.
 drush:
 	$(call title,Executing Drush command inside php container)
-	$(call exec,docker-compose exec php drush -r $(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) $(filter-out $@,$(MAKECMDGOALS)))
+	$(call exec,docker-compose exec php sh -c "drush -r $(DRUPAL_ROOT) -l http://cms.$(PROJECT_BASE_URL) $(filter-out $@,$(MAKECMDGOALS))")
 
 ## Display this help message.
 help:
@@ -147,7 +147,7 @@ RESET  := $(shell tput -Txterm sgr0)
 
 ## Other variables.
 
-DOCKER_NETWORK = $(call shell,docker inspect $(call shell,docker-compose ps -q traefik) -f "{{ json .NetworkSettings.Networks }}" | sed -r 's/^\{"([a-zA-Z_]*).*/\1/g')
+DOCKER_NETWORK = $(call shell,docker inspect $(call shell,docker-compose ps -q traefik) -f "{{ json .NetworkSettings.Networks }}" | sed -E 's/^\{"([a-zA-Z_]*).*/\1/g')
 DRUPAL_ROOT ?= /var/www/html/web
 TARGET_MAX_CHAR_NUM = 20
 
