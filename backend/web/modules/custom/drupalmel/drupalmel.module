@@ -6,16 +6,11 @@
  */
 
 use DMS\Service\Meetup\MeetupKeyAuthClient;
-use Dotenv\Dotenv;
 
 /**
  * Implements hook_cron().
  */
 function drupalmel_cron() {
-  // Load .env variables.
-  $dotenv = new Dotenv('/var/www');
-  $dotenv->load();
-
   // Check for Meetup.com API Key.
   $key = getenv('MEETUP_API_KEY');
   if (!$key) {

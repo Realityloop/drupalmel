@@ -7,18 +7,14 @@ aliases:
     restore_cache:
       name: Restore backend cache
       keys:
-      - v8-backend-{{ checksum "backend/composer.lock" }}
-      # fallback to using the latest cache if no exact match is found
-      - v8-backend-
+      - v1-backend-{{ checksum "backend/composer.json" }}-{{ checksum "backend/composer.lock" }}
 
   # Restore frontend cache.
   - &steps_cache_restore_frontend
     restore_cache:
       name: Restore frontend cache
       keys:
-      - v1-frontend-{{ checksum "frontend/package-lock.json" }}
-      # fallback to using the latest cache if no exact match is found
-      - v1-frontend-
+      - v1-frontend-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
 
 jobs:
 
@@ -60,14 +56,14 @@ jobs:
             - ./backend/web/profiles/contrib
             - ./backend/web/themes/contrib
             - ./backend/web/libraries
-          key: v8-backend-{{ checksum "backend/composer.lock" }}
+          key: v1-backend-{{ checksum "backend/composer.json" }}-{{ checksum "backend/composer.lock" }}
 
       # Save frontend cache.
       - save_cache:
           name: Save frontend cache
           paths:
             - ./frontend/node_modules
-          key: v1-frontend-{{ checksum "frontend/package-lock.json" }}
+          key: v1-frontend-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
 
       # Backup installed database.
       - run:

@@ -785,11 +785,6 @@ $settings['entity_update_batch_size'] = 50;
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
-
-// Load .env variables.
-$dotenv = new Dotenv\Dotenv('/var/www');
-$dotenv->load();
-
 $databases['default']['default'] = array (
   'database' => getenv('DB_NAME'),
   'username' => getenv('DB_USER'),
