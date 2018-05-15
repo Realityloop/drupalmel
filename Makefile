@@ -105,7 +105,7 @@ lint: lint-backend lint-frontend
 ## Check backend coding standards.
 lint-backend:
 	$(call title,Checking PHP coding standards)
-	$(call exec,docker-compose exec php bin/phpcs)
+	$(call exec,docker-compose exec php bin/phpcs -- --report=full --report-junit=/var/www/phpcs/ci_report/results.xml)
 
 ## Check frontend coding standards.
 lint-frontend:

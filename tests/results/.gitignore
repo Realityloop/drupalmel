@@ -2,3 +2,5 @@
 !/backstopjs/.gitkeep
 /behat/*
 !/behat/.gitkeep
+/phpcs/*
+!/phpcs/.gitkeep

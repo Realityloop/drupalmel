@@ -32,6 +32,7 @@ services:
       - ./database:/var/www/database:cached
       - ./tests/behat:/var/www/behat:cached
       - ./tests/results/behat:/var/www/behat/artefacts/ci_report:cached
+      - ./tests/results/phpcs:/var/www/phpcs/ci_report:cached
 
   ## Webserver.
   nginx:
