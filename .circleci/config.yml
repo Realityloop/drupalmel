@@ -16,6 +16,13 @@ aliases:
       keys:
       - v1-npm-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
 
+  # Show Docker Compose logs.
+  - &steps_logs_docker
+    run:
+      name: Show Docker Compose logs
+      command: docker-compose logs
+      when: on_fail
+
 jobs:
 
   build:
@@ -90,6 +97,9 @@ jobs:
           path: ~/repo/database/database.sql
           destination: database/database.sql
 
+      # Show Docker Compose logs.
+      - *steps_logs_docker
+
   test:
     machine: true
     working_directory: ~/repo
@@ -162,6 +172,9 @@ jobs:
       # Save test results.
       - store_test_results:
           path: ~/repo/tests/results
+
+      # Show Docker Compose logs.
+      - *steps_logs_docker
 
 workflows:
   version: 2
