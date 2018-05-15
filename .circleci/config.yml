@@ -2,19 +2,19 @@ version: 2
 
 aliases:
 
-  # Restore backend cache.
-  - &steps_cache_restore_backend
+  # Restore Composer cache.
+  - &steps_cache_restore_composer
     restore_cache:
-      name: Restore backend cache
+      name: Restore Composer cache
       keys:
-      - v1-backend-{{ checksum "backend/composer.json" }}-{{ checksum "backend/composer.lock" }}
+      - v1-composer-{{ checksum "backend/composer.json" }}-{{ checksum "backend/composer.lock" }}
 
-  # Restore frontend cache.
-  - &steps_cache_restore_frontend
+  # Restore NPM cache.
+  - &steps_cache_restore_npm
     restore_cache:
-      name: Restore frontend cache
+      name: Restore NPM cache
       keys:
-      - v1-frontend-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
+      - v1-npm-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
 
 jobs:
 
@@ -26,8 +26,8 @@ jobs:
       - checkout
 
       # Restore caches.
-      - *steps_cache_restore_backend
-      - *steps_cache_restore_frontend
+      - *steps_cache_restore_composer
+      - *steps_cache_restore_npm
 
       # Modify permissions so the PHP and Node containers can build their
       # dependencies.
@@ -45,9 +45,9 @@ jobs:
           name: Run the Makefile install command
           command: make install
 
-      # Save backend cache.
+      # Save composer cache.
       - save_cache:
-          name: Save backend cache
+          name: Save Composer cache
           paths:
             - ./backend/bin
             - ./backend/vendor
@@ -56,14 +56,21 @@ jobs:
             - ./backend/web/profiles/contrib
             - ./backend/web/themes/contrib
             - ./backend/web/libraries
-          key: v1-backend-{{ checksum "backend/composer.json" }}-{{ checksum "backend/composer.lock" }}
+          key: v1-composer-{{ checksum "backend/composer.json" }}-{{ checksum "backend/composer.lock" }}
 
-      # Save frontend cache.
+      # Save npm cache.
       - save_cache:
-          name: Save frontend cache
+          name: Save NPM cache
           paths:
             - ./frontend/node_modules
-          key: v1-frontend-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
+          key: v1-npm-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
+
+      # Save nuxt cache.
+      - save_cache:
+          name: Save Nuxt.js cache
+          paths:
+            - ./frontend/.nuxt
+          key: v1-nuxt-$CIRCLE_SHA1
 
       # Backup installed database.
       - run:
@@ -95,8 +102,12 @@ jobs:
           at: ~/repo
 
       # Restore caches.
-      - *steps_cache_restore_backend
-      - *steps_cache_restore_frontend
+      - *steps_cache_restore_composer
+      - *steps_cache_restore_npm
+      - restore_cache:
+          name: Restore Nuxt.js cache
+          keys:
+            - v1-nuxt-$CIRCLE_SHA1
 
       # Modify permissions so the PHP and Node containers can build their
       # dependencies.

@@ -70,7 +70,7 @@ services:
     volumes:
       - ./frontend:/app:cached
       - .env:/.env:cached
-    command: sh -c 'npm install && npm rebuild node-sass && npm run dev'
+    command: sh -c 'npm run dev'
 
   ## Browser.
   browser:

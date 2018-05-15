@@ -47,8 +47,19 @@ A Makefile is provided to control your development environment and process.
 
 * **build:**
 
-  Ensures that the Docker containers are running, and executes
-  `composer install` inside the PHP container.
+  Executes the following commands:
+  * build-backend
+  * build-frontend
+
+* **build-backend:**
+
+  Builds the backend codebase by running Composer install inside the PHP
+  container.
+
+* **build-frontend:**
+
+  Builds the frontend codebase by running NPM install and Nuxt build inside
+  the Node container.
 
 * **clean:**
 

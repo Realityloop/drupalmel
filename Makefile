@@ -1,14 +1,22 @@
 include .env
 
 .DEFAULT_GOAL := help
-.PHONY: build clean clean-backend clean-docker clean-frontend db-export db-import db-status down drush drupal help init install lint lint-backend lint-frontend logs test test-behat up
+.PHONY: build build-backend build-frontend clean clean-backend clean-docker clean-frontend db-export db-import db-status down drush drupal help init install lint lint-backend lint-frontend logs test test-behat up
 
 # TARGETS
 
-## Build composer dependencies.
-build: up
-	$(call title,Installing composer dependencies)
-	$(call exec,docker-compose exec php composer install)
+## Build all project dependencies.
+build: build-backend build-frontend
+
+## Build Composer dependencies.
+build-backend:
+	$(call title,Installing Composer dependencies)
+	$(call exec,docker run --rm -it -v $(shell pwd)/backend:/var/www/html -v $(shell pwd)/.env:/var/www/.env -v ~/.composer/cache:/composer/cache -e COMPOSER_HOME=/composer wodby/drupal-php:${PHP_TAG} composer install)
+
+## Build NPM dependencies.
+build-frontend:
+	$(call title,Installing NPM dependencies)
+	$(call exec,docker run --rm -it -v $(shell pwd)/frontend:/app -v $(shell pwd)/.env:/.env -w /app wodby/node:${NODE_TAG} sh -c 'npm install && npm run build')
 
 ## Remove containers and build files.
 clean: clean-docker clean-backend clean-frontend
