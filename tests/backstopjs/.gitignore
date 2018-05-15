@@ -1,6 +1,5 @@
-/bitmaps_*/*
-!/bitmaps_*/.gitkeep
-/ci_report/*
-!/ci_report/.gitkeep
-/html_report/*
-!/html_report/.gitkeep
+/artefacts/ci_report/*
+!/artefacts/ci_report/.gitkeep
+/artefacts/html_report/*
+!/artefacts/html_report/.gitkeep
+/artefacts/screenshots/*

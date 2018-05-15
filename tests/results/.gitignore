@@ -1,2 +1,4 @@
+/backstopjs/*
+!/backstopjs/.gitkeep
 /behat/*
 !/behat/.gitkeep

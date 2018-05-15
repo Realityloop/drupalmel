@@ -49,11 +49,14 @@
   ],
 
   "paths": {
-    "bitmaps_reference": "bitmaps_reference",
-    "bitmaps_test": "bitmaps_test",
+    "bitmaps_reference": "artefacts/screenshots/reference",
+    "bitmaps_test": "artefacts/screenshots/test",
     "engine_scripts": "engine_scripts",
-    "html_report": "html_report",
-    "ci_report": "ci_report"
+    "html_report": "artefacts/html_report",
+    "ci_report": "artefacts/ci_report"
+  },
+  "ci": {
+    "testReportFileName": "results.xml"
   },
 
   "report": ["browser", "CI"],

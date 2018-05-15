@@ -146,19 +146,11 @@ jobs:
           # command: make test-backstopjs
           command: make test-backstopjs || true
 
-      # Save BackstopJS artifacts.
+      # Save BackstopJS artefacts.
       - store_artifacts:
-          name: Store BackstopJS HTML report
-          path: ~/repo/tests/backstopjs/html_report
-          destination: backstopjs/html_report
-      - store_artifacts:
-          name: Store BackstopJS Reference screenshots
-          path: ~/repo/tests/backstopjs/bitmaps_reference
-          destination: backstopjs/bitmaps_reference
-      - store_artifacts:
-          name: Store BackstopJS Test screenshots
-          path: ~/repo/tests/backstopjs/bitmaps_test
-          destination: backstopjs/bitmaps_test
+          name: Store BackstopJS artefacts
+          path: ~/repo/tests/backstopjs/artefacts
+          destination: backstopjs
 
       # Save test results.
       - store_test_results:
