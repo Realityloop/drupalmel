@@ -1,4 +1,4 @@
-# Local overrides to the default profile
+# Local overrides to the default profile.
 default:
   suites:
     default:
@@ -7,15 +7,14 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-        - FeatureContext:
-            parameters:
-              screenshot_dir: %paths.base%/artefacts/screenshots
+        - FeatureContext
+        - IntegratedExperts\BehatScreenshotExtension\Context\ScreenshotContext
 
-  formatters: 
-    html:
-      output_path: %paths.base%/artefacts/html_report/
 
+  # Extensions.
   extensions:
+
+    # Mink.
     Behat\MinkExtension:
       goutte: ~
       base_url: http://cms.drupalmel.localhost/
@@ -26,7 +25,8 @@ default:
       # Tag features/scenarious with @javascript to use the selenium2 driver.
       javascript_session: selenium2
       # Configure browser to be used. Browser must be available on wd_host.
-      # Stick with chrome by default. It's 2x faster than firefox or phantomjs (your results may vary).
+      # Stick with chrome by default. It's 2x faster than firefox or phantomjs
+      # (your results may vary).
       browser_name: chrome
       selenium2:
         wd_host: http://browser:4444/wd/hub
@@ -57,6 +57,19 @@ default:
       filename: results.xml
       outputDir: %paths.base%/artefacts/ci_report/
 
+    # Screenshot Extension.
+    IntegratedExperts\BehatScreenshotExtension:
+      dir: %paths.base%/artefacts/screenshots
+      fail: true
+      purge: false
+
+
+  # Formatters.
+  formatters:
+    html:
+      output_path: %paths.base%/artefacts/html_report/
+
+      
 docker:
   extensions:
     Behat\MinkExtension:
