@@ -33,6 +33,7 @@ aliases:
       command: |
         sudo chown -R ubuntu.ubuntu *
         sudo chmod +w backend/web/sites/default
+        sudo chmod 777 backend/web/sites/default/files
 
 
 # Jobs
@@ -102,11 +103,15 @@ jobs:
           name: Backup installed database
           command: make db-export database.sql
 
-      # Store database in workspace.
+      # Store files in workspace.
+      - run:
+          name: Adjust keys permissions
+          command: sudo chmod 755 backend/keys/*.key
       - persist_to_workspace:
           root: ~/repo
           paths:
             - .env
+            - backend/keys
             - database/database.sql
 
       # Store install artifacts.
