@@ -1,4 +1,5 @@
-import Waterwheel from 'waterwheel'
+// @see https://github.com/acquia/waterwheel.js/issues/77 
+import Waterwheel from 'waterwheel/lib/waterwheel'
 
 const waterwheel = new Waterwheel({
   base: 'http://cms.' + process.env.PROJECT_BASE_URL,
