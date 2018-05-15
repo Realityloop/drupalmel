@@ -17,14 +17,17 @@ export default {
       // - value: Human readable name, or `false` to exclude from navigation.
       index: {
         'splash': false,
-        'events': 'Events'
+        'events': {
+          label: 'Events',
+          fetch: 'events/get'
+        }
       }
     };
   },
 
-  fetch ({ app, store, params }) {
+  async fetch ({ app, store, params }) {
     // Populate the index store with this pages index.
-    return store.commit('index', this.data().index)
+    await store.dispatch('index', this.data().index)
   }
 };
 </script>

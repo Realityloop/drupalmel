@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   computed: {
@@ -50,18 +50,7 @@ export default {
         position: 1
       }
     }
-  },
-
-  methods: {
-    ...mapActions({
-      eventsGet: 'events/get'
-    })
-  },
-
-  mounted () {
-    // Load Events.
-    this.eventsGet()
-  },
+  }
 }
 </script>
 

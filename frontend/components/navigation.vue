@@ -8,7 +8,7 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav v-for="(value, id) in index" :key="id">
-        <b-nav-item v-if="value" :href="`#` + id">{{ value }}</b-nav-item>
+        <b-nav-item v-if="value" :href="`#` + id">{{ value.label }}</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>

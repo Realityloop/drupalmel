@@ -1,15 +1,12 @@
 import { Deserializer } from 'jsonapi-serializer'
-import moment from 'moment'
 
 export const state = () => ({
-  index: [{
-    title: 'Loading...'
-  }]
+  index: []
 })
 
 export const actions = {
-  get({commit}) {
-    return this.$waterwheel.jsonapi.get('node/event', {
+  async get({ commit }) {
+    await this.$waterwheel.jsonapi.get('node/event', {
       fields: {
         'node--event': 'title,location,meetup_id,time'
       },
