@@ -1,5 +1,7 @@
 version: 2
 
+
+# Aliases (variable definitions)
 aliases:
 
   # Restore Composer cache.
@@ -23,8 +25,26 @@ aliases:
       command: docker-compose logs
       when: on_fail
 
+  # Modify permissions so the PHP and Node containers can build their
+  # dependencies.
+  - &steps_permissions_fix
+    run:
+      name: Fix permissions
+      command: |
+        sudo chown -R ubuntu.ubuntu *
+        sudo chmod +w backend/web/sites/default
+
+
+# Jobs
 jobs:
 
+  # Build:
+  # - Tests that the codebase can be built using the same tools and docker
+  #   containers that are used locally.
+  # - Installs a fresh copy of the atabase and imports data from third party 
+  #   sources.
+  # - Exports the database and stores it, along with build artefacts and caches
+  #   for followup jobs.
   build:
     machine: true
     working_directory: ~/repo
@@ -38,11 +58,9 @@ jobs:
 
       # Modify permissions so the PHP and Node containers can build their
       # dependencies.
-      - run:
-          name: Fix permissions
-          command: sudo chown -R ubuntu.ubuntu *
+      - *steps_permissions_fix
 
-      # Setup the .env file.
+      # Setup the .env file and inject a secret Meetup.com API key.
       - run:
           name: Setup the project .env file
           command: sed 's/MEETUP_API_KEY=/MEETUP_API_KEY='"$MEETUP_API_KEY"'/g' .env-example > .env
@@ -52,7 +70,7 @@ jobs:
           name: Run the Makefile install command
           command: make install
 
-      # Save composer cache.
+      # Save Composer cache.
       - save_cache:
           name: Save Composer cache
           paths:
@@ -65,14 +83,14 @@ jobs:
             - ./backend/web/libraries
           key: v1-composer-{{ checksum "backend/composer.json" }}-{{ checksum "backend/composer.lock" }}
 
-      # Save npm cache.
+      # Save NPM cache.
       - save_cache:
           name: Save NPM cache
           paths:
             - ./frontend/node_modules
           key: v1-npm-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
 
-      # Save nuxt cache.
+      # Save Nuxt.js cache.
       - save_cache:
           name: Save Nuxt.js cache
           paths:
@@ -100,6 +118,13 @@ jobs:
       # Show Docker Compose logs.
       - *steps_logs_docker
 
+  # Test:
+  # - Spins up the Docker containers and re-imports the stored codebase
+  #   and database.
+  # - Runs PHPCS and ESLint code linting to ensure quality code.
+  # - Runs Behat integration tests to ensure the site functions as expected.
+  # - Runs BackstopJS visual regression tests to ensure the site looks as 
+  #   expected.
   test:
     machine: true
     working_directory: ~/repo
@@ -121,9 +146,7 @@ jobs:
 
       # Modify permissions so the PHP and Node containers can build their
       # dependencies.
-      - run:
-          name: Fix permissions
-          command: sudo chown -R ubuntu.ubuntu *
+      - *steps_permissions_fix
 
       # Spin up Docker containers.
       - run:
@@ -176,6 +199,8 @@ jobs:
       # Show Docker Compose logs.
       - *steps_logs_docker
 
+
+# Workflows
 workflows:
   version: 2
 
