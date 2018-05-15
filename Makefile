@@ -132,7 +132,6 @@ test-behat:
 
 test-backstopjs:
 	$(call title,Running BackstopJS tests)
-	docker run --network=$(DOCKER_NETWORK) --rm -it -v $(shell pwd)/tests/backstopjs:/src backstopjs/backstopjs reference
 	docker run --network=$(DOCKER_NETWORK) --rm -it -v $(shell pwd)/tests/backstopjs:/src -v $(shell pwd)/tests/results/backstopjs:/src/artefacts/ci_report backstopjs/backstopjs test
 
 ## Start docker containers.

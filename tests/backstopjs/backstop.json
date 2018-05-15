@@ -3,21 +3,6 @@
 
   "viewports": [
     {
-      "label": "xs",
-      "width": 411,
-      "height": 731
-    },
-    {
-      "label": "sm",
-      "width": 576,
-      "height": 768
-    },
-    {
-      "label": "md",
-      "width": 768,
-      "height": 1024
-    },
-    {
       "label": "lg",
       "width": 992,
       "height": 1322
@@ -29,10 +14,10 @@
 
   "scenarios": [
     {
-      "label": "DrupalMelbourne",
+      "label": "events__event",
       "cookiePath": "",
       "url": "http://node:3000/",
-      "referenceUrl": "http://melbourne.drupal.org.au",
+      "referenceUrl": "",
       "readyEvent": "",
       "readySelector": "",
       "delay": 0,
@@ -41,15 +26,18 @@
       "hoverSelector": "",
       "clickSelector": "",
       "postInteractionWait": 0,
-      "selectors": [],
-      "selectorExpansion": true,
+      "selectors": [
+        ".component__events__event--default",
+        ".component__events__event--active"
+      ],
+      "selectorExpansion": false,
       "misMatchThreshold" : 0.1,
       "requireSameDimensions": true
     }
   ],
 
   "paths": {
-    "bitmaps_reference": "artefacts/screenshots/reference",
+    "bitmaps_reference": "reference",
     "bitmaps_test": "artefacts/screenshots/test",
     "engine_scripts": "engine_scripts",
     "html_report": "artefacts/html_report",

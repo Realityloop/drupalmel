@@ -91,13 +91,6 @@ jobs:
             - ./frontend/node_modules
           key: v1-npm-{{ checksum "frontend/package.json" }}-{{ checksum "frontend/package-lock.json" }}
 
-      # Save Nuxt.js cache.
-      - save_cache:
-          name: Save Nuxt.js cache
-          paths:
-            - ./frontend/.nuxt
-          key: v1-nuxt-$CIRCLE_SHA1
-
       # Backup installed database.
       - run:
           name: Backup installed database
@@ -113,6 +106,7 @@ jobs:
             - .env
             - backend/keys
             - database/database.sql
+            - frontend/.nuxt
 
       # Store install artifacts.
       - store_artifacts:
@@ -144,10 +138,6 @@ jobs:
       # Restore caches.
       - *steps_cache_restore_composer
       - *steps_cache_restore_npm
-      - restore_cache:
-          name: Restore Nuxt.js cache
-          keys:
-            - v1-nuxt-$CIRCLE_SHA1
 
       # Modify permissions so the PHP and Node containers can build their
       # dependencies.
@@ -189,13 +179,17 @@ jobs:
           name: Run BackstopJS tests
           # @TODO: Replace below once BackstopJS tests are expecte to pass.
           # command: make test-backstopjs
-          command: make test-backstopjs || true
+          command: make test-backstopjs
 
       # Save BackstopJS artefacts.
       - store_artifacts:
           name: Store BackstopJS artefacts
           path: ~/repo/tests/backstopjs/artefacts
           destination: backstopjs
+      - store_artifacts:
+          name: Store BackstopJS reference images
+          path: ~/repo/tests/backstopjs/reference
+          destination: reference
 
       # Save test results.
       - store_test_results:
