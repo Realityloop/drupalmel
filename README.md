@@ -31,7 +31,7 @@ This is the codebase for the Drupal Melbourne community website.
 
 Run the following command in Terminal or Git Bash:
 
-  > `make install`
+  > `make init && make install`
 
 ### 2. Services
 
@@ -111,7 +111,7 @@ A Makefile is provided to control your development environment and process.
 
   > `make drush -- en devel_generate -y`
 
-* **init-env:**
+* **init:**
 
   Initializes the projects `.env` file, if it doesn't exist alread, by copying
   `.env-example`.

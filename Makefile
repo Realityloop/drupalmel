@@ -1,7 +1,7 @@
 include .env
 
 .DEFAULT_GOAL := help
-.PHONY: build clean clean-backend clean-docker clean-frontend db-export db-import db-status down drush drupal help init-env install lint lint-backend lint-frontend logs test test-behat up
+.PHONY: build clean clean-backend clean-docker clean-frontend db-export db-import db-status down drush drupal help init install lint lint-backend lint-frontend logs test test-behat up
 
 # TARGETS
 
@@ -76,15 +76,12 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
 ## Initialises projects .env file.
-init-env:
-	@if [ ! -e .env ] ; then \
-		printf "\n${GREEN}>>> Creating .env file...${RESET}\n" ; \
-		printf "$$ ${YELLOW}cp .env-example .env${RESET}\n" ; \
-		cp .env-example .env ; \
-	fi
+init:
+	$(call title,Creating .env file)
+	$(call exec,cp .env-example .env)
 
 ## Install Drupal.
-install: init-env build db-status
+install: build up db-status
 	$(call title,Installing Drupal)
 	$(call exec,chmod +w backend/web/sites/default/settings.php | true)
 	$(call exec,docker-compose exec php sh -c "drush --root=$(DRUPAL_ROOT) -y si contenta_jsonapi install_configure_form.include_recipes_magazin=NULL")
