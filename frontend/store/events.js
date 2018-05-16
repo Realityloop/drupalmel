@@ -1,6 +1,7 @@
 import { Deserializer } from 'jsonapi-serializer'
 
 export const state = () => ({
+  active: 0,
   index: []
 })
 
@@ -30,7 +31,15 @@ export const actions = {
 }
 
 export const mutations = {
-  set(state, res) {
+
+  // Set the delta as the active event.
+  activate(state, delta) {
+    state.active = delta
+  },
+
+  // Set the Events index state.
+  set (state, res) {
     state.index = res
   }
+
 }

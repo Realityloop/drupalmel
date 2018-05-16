@@ -14,8 +14,7 @@
 
   "scenarios": [
     {
-      "label": "events__event",
-      "cookiePath": "",
+      "label": "components",
       "url": "http://node:3000/",
       "referenceUrl": "",
       "readyEvent": "",
@@ -27,8 +26,32 @@
       "clickSelector": "",
       "postInteractionWait": 0,
       "selectors": [
-        ".component__events__event--default",
-        ".component__events__event--active"
+        ".component__events__event--default.even",
+        ".component__events__event--default.odd",
+        ".component__events__event--active",
+        ".pagination"
+      ],
+      "selectorExpansion": false,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },
+
+    {
+      "label": "panes",
+      "url": "http://node:3000/",
+      "referenceUrl": "",
+      "readyEvent": "",
+      "readySelector": "",
+      "delay": 0,
+      "hideSelectors": [],
+      "removeSelectors": [
+        ".pane__events .map"
+      ],
+      "hoverSelector": "",
+      "clickSelector": "",
+      "postInteractionWait": 0,
+      "selectors": [
+        ".pane__events"
       ],
       "selectorExpansion": false,
       "misMatchThreshold" : 0.1,

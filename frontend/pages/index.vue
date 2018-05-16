@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section class="container" v-for="(title, id) in index" :key="id">
+    <div v-for="(title, id) in index" :key="id">
       <component :title="title" :is="`dm-panes-` + id" />
-    </section>
+    </div>
   </div>
 </template>
 

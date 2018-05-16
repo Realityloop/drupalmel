@@ -5,12 +5,14 @@ import Vue from 'vue'
 
 // Components.
 import dmNavigation from '~/components/navigation.vue'
+import dmEventsEvent from '~/components/events--event.vue'
 
 // Panes.
 import dmPanesEvents from '~/components/panes/events.vue'
 import dmPanesSplash from '~/components/panes/splash.vue'
 
 let components = {
+  dmEventsEvent,
   dmNavigation,
   dmPanesEvents,
   dmPanesSplash

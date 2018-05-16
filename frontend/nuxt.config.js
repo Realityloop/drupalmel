@@ -10,7 +10,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js frontend for DrupalMel' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto+Condensed' }
     ]
   },
 
@@ -40,7 +41,8 @@ module.exports = {
 
   modules: [
     ['@nuxtjs/dotenv', { path: '..' }],
-    'bootstrap-vue/nuxt'
+    ['bootstrap-vue/nuxt', { css: false }],
+    'nuxt-leaflet'
   ],
 
   plugins: [
