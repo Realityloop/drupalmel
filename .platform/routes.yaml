@@ -5,7 +5,7 @@
 
 # Backend
 
-"https://cms.{default}/":
+"http://cms.{default}/":
     type: upstream
     upstream: "backend:http"
     cache:
@@ -14,14 +14,14 @@
       # Base the cache on the session cookie. Ignore all other cookies.
       cookies: ['/^SS?ESS/']
 
-"http://cms.{default}/":
-    type: redirect
-    to: "https://cms.{default}/"
+#"http://cms.{default}/":
+#    type: redirect
+#    to: "https://cms.{default}/"
 
 
 # Frontend
 
-"https://{default}/":
+"http://{default}/":
     type: upstream
     upstream: "frontend:http"
     cache:
@@ -30,6 +30,6 @@
       # Base the cache on the session cookie. Ignore all other cookies.
       cookies: ['/^SS?ESS/']
 
-"http://{default}/":
-    type: redirect
-    to: "https://{default}/"
+#"http://{default}/":
+#    type: redirect
+#    to: "https://{default}/"

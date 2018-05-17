@@ -122,19 +122,19 @@ web:
 
 # The configuration of scheduled execution.
 timezone: "Australia/Melbourne"
-crons:
-    drupal:
-        spec: '*/20 * * * *'
-        cmd: 'cd web ; drush core-cron'
-    letsencrypt:
-        spec: '0 1 * */2 *'
-        cmd: |
-            if [ "$PLATFORM_BRANCH" = "master" ]; then
-                platform variable:set --no-wait redeploy "$(date)"
-            fi
-    snapshot:
-        spec: '45 1 * * *'
-        cmd: |
-            if [ "$PLATFORM_BRANCH" = "master" ]; then
-                platform snapshot:create --yes --no-wait
-            fi
+#crons:
+#    drupal:
+#        spec: '*/20 * * * *'
+#        cmd: 'cd web ; drush core-cron'
+#    letsencrypt:
+#        spec: '0 1 * */2 *'
+#        cmd: |
+#            if [ "$PLATFORM_BRANCH" = "master" ]; then
+#                platform variable:set --no-wait redeploy "$(date)"
+#            fi
+#    snapshot:
+#        spec: '45 1 * * *'
+#        cmd: |
+#            if [ "$PLATFORM_BRANCH" = "master" ]; then
+#                platform snapshot:create --yes --no-wait
+#            fi
