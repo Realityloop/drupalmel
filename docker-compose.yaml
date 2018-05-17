@@ -56,7 +56,7 @@ services:
 
   ## NodeJS.
   node:
-    image: wodby/node:$NODE_TAG
+    image: keymetrics/pm2:$NODE_TAG
     container_name: "${PROJECT_NAME}_node"
     working_dir: /app
     environment:
@@ -70,7 +70,7 @@ services:
     volumes:
       - ./frontend:/app:cached
       - .env:/.env:cached
-    command: sh -c 'npm run dev'
+    command: sh -c 'pm2-runtime start ecosystem.config.js --only nuxt-prod'
 
   ## Browser.
   browser:
