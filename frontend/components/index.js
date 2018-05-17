@@ -4,8 +4,9 @@ import Vue from 'vue'
 //       - 'fs' doesn't work due to webpack.
 
 // Components.
-import dmNavigation from '~/components/navigation.vue'
 import dmEventsEvent from '~/components/events--event.vue'
+import dmHeadingRow from '~/components/heading--row.vue'
+import dmNavigation from '~/components/navigation.vue'
 
 // Panes.
 import dmPanesEvents from '~/components/panes/events.vue'
@@ -13,6 +14,7 @@ import dmPanesSplash from '~/components/panes/splash.vue'
 
 let components = {
   dmEventsEvent,
+  dmHeadingRow,
   dmNavigation,
   dmPanesEvents,
   dmPanesSplash

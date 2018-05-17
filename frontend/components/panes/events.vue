@@ -1,28 +1,28 @@
 <template>
   <b-container class="pane__events">
     <b-row>
-
-      <b-col><h2>Events</h2></b-col>
-
-    </b-row>
-    <b-row>
-
       <b-col lg="6" class="events">
-        <b-list-group
-          v-for="(event, delta) in index"
-          v-if="isVisible(delta)"
+        <dm-heading-row>Events</dm-heading-row>
 
-          :key="delta">
-          <dm-events-event
-            :active="isActive(delta)"
-            :delta="delta"
-            :event="event" />
-        </b-list-group>
+        <b-row>
+          <b-col>
+            <b-list-group
+              v-for="(event, delta) in index"
+              v-if="isVisible(delta)"
 
-        <b-pagination
-          :per-page="pagination.items"
-          :total-rows="index.length"
-          v-model="pagination.position" />
+              :key="delta">
+              <dm-events-event
+                :active="isActive(delta)"
+                :delta="delta"
+                :event="event" />
+            </b-list-group>
+
+            <b-pagination
+              :per-page="pagination.items"
+              :total-rows="index.length"
+              v-model="pagination.position" />
+          </b-col>
+        </b-row>
       </b-col>
 
       <b-col class="map">

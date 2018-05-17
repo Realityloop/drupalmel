@@ -29,7 +29,8 @@
         ".component__events__event--default.even",
         ".component__events__event--default.odd",
         ".component__events__event--active",
-        ".pagination"
+        ".pagination",
+        ".component__heading--row h2"
       ],
       "selectorExpansion": false,
       "misMatchThreshold" : 0.1,
