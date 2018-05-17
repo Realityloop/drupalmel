@@ -9,14 +9,16 @@
 </template>
 
 <style lang="scss">
+  @import '~/assets/scss/styles.scss';
   @import '~/assets/scss/bootstrap.scss';
 
   * {
+    color: $type__color__default;
     font: {
-      family: 'Roboto Condensed', sans-serif;
-      size: 16px;
+      family: $type__font__default;
+      size: $type__size__default;
     }
-    line-height: 19px;
+    line-height: $type__line_height__default;
   }
 
   h5 {

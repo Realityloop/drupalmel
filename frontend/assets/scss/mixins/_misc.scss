@@ -1,0 +1,16 @@
+@mixin misc__arrow($arrow__size, $arrow__color, $right, $height) {
+  &::after {
+    border: {
+      bottom: $arrow__size solid transparent;
+      left: $arrow__size solid $arrow__color;
+      top: $arrow__size solid transparent;
+    }
+    content: '';
+    display: block;
+    height: 0;
+    position: absolute;
+    right: $right;
+    top: ($height - $arrow__size * 2) / 2;
+    width: 0;
+  }
+}

@@ -97,6 +97,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .events {
+    // @TODO - make and name variable :(
+    background-color: #fcfcfc;
+  }
+
   .map {
     overflow: hidden;
     margin-left: -20px;

@@ -7,7 +7,7 @@ module.exports = async (page, scenario, vp) => {
   eventsTitles.forEach(handle => {
 
     // Set title.
-    handle.$eval('.title', el => {
+    handle.$eval('.title h5', el => {
       return el.innerHTML = 'Drupal Melbourne Meetup';
     });
 
@@ -24,7 +24,7 @@ module.exports = async (page, scenario, vp) => {
   });
 
   // Set the active event title.
-  await page.$eval('.component__events__event--active .title', el => {
+  await page.$eval('.component__events__event--active .title h5', el => {
     return el.innerHTML = 'Drupal Melbourne Meetup with guest Michael Schmid';
   });
 };
