@@ -1,10 +1,19 @@
-@mixin misc__arrow($arrow__size, $arrow__color, $right, $height) {
+@mixin misc__arrow($direction, $arrow__size, $arrow__color, $right, $height) {
   &::after {
-    border: {
-      bottom: $arrow__size solid transparent;
-      left: $arrow__size solid $arrow__color;
-      top: $arrow__size solid transparent;
+    @if $direction == right {
+      border: {
+        bottom: $arrow__size solid transparent;
+        left: $arrow__size solid $arrow__color;
+        top: $arrow__size solid transparent;
+      }
+    } @else if $direction == left {
+      border: {
+        bottom: $arrow__size solid transparent;
+        right: $arrow__size solid $arrow__color;
+        top: $arrow__size solid transparent;
+      }
     }
+
     content: '';
     display: block;
     height: 0;

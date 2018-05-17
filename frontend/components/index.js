@@ -7,6 +7,7 @@ import Vue from 'vue'
 import dmEventsEvent from '~/components/events--event.vue'
 import dmHeadingRow from '~/components/heading--row.vue'
 import dmNavigation from '~/components/navigation.vue'
+import dmPager from '~/components/pager.vue'
 
 // Panes.
 import dmPanesEvents from '~/components/panes/events.vue'
@@ -16,6 +17,7 @@ let components = {
   dmEventsEvent,
   dmHeadingRow,
   dmNavigation,
+  dmPager,
   dmPanesEvents,
   dmPanesSplash
 }

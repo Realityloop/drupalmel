@@ -29,7 +29,7 @@
         ".component__events__event--default.even",
         ".component__events__event--default.odd",
         ".component__events__event--active",
-        ".pagination",
+        ".component__pager",
         ".component__heading--row h2"
       ],
       "selectorExpansion": false,

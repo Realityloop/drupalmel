@@ -67,6 +67,7 @@
     }
     cursor: pointer;
     height: $_height;
+    margin: 0;
     padding: $_padding;
 
     .title {
@@ -99,7 +100,7 @@
 
       // @TODO - Make this a mixin (arrow).
       .title {
-        @include misc__arrow($_arrow_size, $_arrow_color, $_padding, $_line_height);
+        @include misc__arrow(right, $_arrow_size, $_arrow_color, $_padding, $_line_height);
       }
     }
   }

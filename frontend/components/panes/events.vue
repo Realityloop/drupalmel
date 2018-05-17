@@ -6,21 +6,22 @@
 
         <b-row>
           <b-col>
-            <b-list-group
-              v-for="(event, delta) in index"
-              v-if="isVisible(delta)"
-
-              :key="delta">
+            <b-list-group>
               <dm-events-event
+                v-for="(event, delta) in index"
+                v-if="isVisible(delta)"
+
                 :active="isActive(delta)"
                 :delta="delta"
-                :event="event" />
+                :event="event"
+                :key="delta" />
             </b-list-group>
 
-            <b-pagination
+            <dm-pager
+              v-model="pagination.position"
+
               :per-page="pagination.items"
-              :total-rows="index.length"
-              v-model="pagination.position" />
+              :total-rows="index.length" />
           </b-col>
         </b-row>
       </b-col>
@@ -96,8 +97,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-  .events {
+<style lang="scss">
+  @import '~/assets/scss/styles.scss';
+
+  .pane__events {
+    box-shadow: 0px 13px 0px -10px $color__blue--primary;
+    margin-bottom: 3px;
+
+    .list-group {
+      height: 180px;
+    }
+  }
+
+  .events > .row > .col > * {
     // @TODO - make and name variable :(
     background-color: #fcfcfc;
   }
