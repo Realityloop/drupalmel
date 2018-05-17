@@ -797,3 +797,8 @@ $databases['default']['default'] = array (
 );
 $settings['install_profile'] = 'contenta_jsonapi';
 $config_directories['sync'] = '../config/sync';
+
+// Automatic Platform.sh settings.
+if (file_exists($app_root . '/' . $site_path . '/settings.platformsh.php')) {
+  include $app_root . '/' . $site_path . '/settings.platformsh.php';
+}

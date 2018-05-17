@@ -1,0 +1,35 @@
+# The routes of the project.
+#
+# Each route describes how an incoming URL is going
+# to be processed by Platform.sh.
+
+# Backend
+
+"https://cms.{default}/":
+    type: upstream
+    upstream: "backend:http"
+    cache:
+      enabled: true
+
+      # Base the cache on the session cookie. Ignore all other cookies.
+      cookies: ['/^SS?ESS/']
+
+"http://cms.{default}/":
+    type: redirect
+    to: "https://cms.{default}/"
+
+
+# Frontend
+
+"https://{default}/":
+    type: upstream
+    upstream: "frontend:http"
+    cache:
+      enabled: true
+
+      # Base the cache on the session cookie. Ignore all other cookies.
+      cookies: ['/^SS?ESS/']
+
+"http://{default}/":
+    type: redirect
+    to: "https://{default}/"
