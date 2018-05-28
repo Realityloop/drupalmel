@@ -17,16 +17,18 @@
                 :key="delta" />
             </b-list-group>
 
-            <dm-pager
-              v-model="pagination.position"
+            <div class="pager">
+              <dm-pager
+                v-model="pagination.position"
 
-              :per-page="pagination.items"
-              :total-rows="index.length" />
+                :per-page="pagination.items"
+                :total-rows="index.length" />
+            </div>
           </b-col>
         </b-row>
       </b-col>
 
-      <b-col class="map">
+      <b-col class="map" v-if="!debug">
         <no-ssr>
           <l-map :zoom=17 :center="mapPosition">
             <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
@@ -53,6 +55,9 @@ export default {
     ...mapState({
       // Active event.
       active: state => state.events.active,
+
+      // Debu state.
+      debug: state => state.debug,
 
       // Events index.
       index: state => state.events.index
@@ -109,9 +114,16 @@ export default {
     }
   }
 
-  .events > .row > .col > * {
+  .events > .row > .col > *,
+  .pager {
     // @TODO - make and name variable :(
     background-color: #fcfcfc;
+    //background-color: red;
+  }
+
+  .pager {
+    padding: 39px 0 19px;
+    text-align: center;
   }
 
   .map {
