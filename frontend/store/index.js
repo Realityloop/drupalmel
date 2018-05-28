@@ -1,4 +1,5 @@
 export const state = () => ({
+  debug: false,
   index: {}
 })
 
@@ -16,6 +17,10 @@ export const actions = {
 }
 
 export const mutations = {
+  debug (state, value) {
+    state.debug = value
+  },
+
   set (state, data) {
     state.index = data
   }

@@ -2,6 +2,11 @@ module.exports = async (page, scenario, vp) => {
   console.log('SCENARIO > ' + scenario.label);
   await require('./clickAndHoverHelper')(page, scenario);
 
+  // Set components to debug mode.
+  await page.evaluate(async () => {
+    window.$nuxt.$store.commit('debug', true)
+  })
+
   // Set events__event content.
   const eventsTitles = await page.$$('.component__events__event');
   eventsTitles.forEach(handle => {
